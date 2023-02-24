@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> FAkE REVIEW DETECTION</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+
+    <div class="container">
+        <form class="form" id="user_login">
+            <h1 class="form_Title">User Login</h1>
+            <div class="form_Message form_Message_Error"></div>
+            <div class="form_Input_Group">
+                <input type="text" class="form_Input" placeholder="Username">
+                <div class="form_Input_Error_Message"></div>
+
+            </div>
+            <div class="form_Input_Group">
+                <input type="password" class="form_Input" placeholder="Password">
+                <div class="form_Input_Error_Message"></div>
+            </div>
+            <button class="form_Button" type="submit">Login</button>
+            <p class="form_Text">
+                <a href="#" class="form_Link">Forgot your password?</a>
+            </p>
+            <p class="form_Text">
+                <a href="#" class="form_Link" id="linkCreateAccount">Dont't have an account? Create account</a>
+            </p>
+        </form>
+        <form class="form form_Hidden" id="create_Account">
+            <h1 class="form_Title">Create Account</h1>
+            <div class="form_Message form_Message_Error"></div>
+            <div class="form_Input_Group">
+                <input type="text" id="singupUsername" class="form_Input" placeholder="Username">
+                <div class="form_Input_Error_Message"></div>
+
+            </div>
+            <div class="form_Input_Group">
+                <input type="text" class="form_Input" placeholder="Email Address">
+                <div class="form_Input_Error_Message"></div>
+
+            </div>
+            <div class="form_Input_Group">
+                <input type="password" class="form_Input" placeholder="Password">
+                <div class="form_Input_Error_Message"></div>
+            </div>
+            <div class="form_Input_Group">
+                <input type="password" class="form_Input" placeholder="Confirm Password">
+                <div class="form_Input_Error_Message"></div>
+            </div>
+            <button class="form_Button" type="submit">Submit</button>
+        
+            <p class="form_Text">
+                <a href="#" class="form_Link" id="linkLoginAccount">Alredy have an account? Sign In</a>
+            </p>
+        </form>
+    </div>
+
+    <script src="main.js"></script>
+</body>
+
+</html>
