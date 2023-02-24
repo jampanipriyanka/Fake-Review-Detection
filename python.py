@@ -13,20 +13,18 @@ import json
 app=Flask(__name__)
 
 
-@app.route('/')
-def index():
-    return render_template('main_page.html')
+# @app.route('/',method=['GET'])
+# def index():
+#     return render_template('main_page.html')
 
 
-@app.route('/processUserInfo/<string:userInfo>',method=['POST'])
+@app.route('/processUserInfo/review',methods=['POST'])
 def processUserInfo(userInfo):
     userInfo=json.loads(userInfo)
     print("user info data from python")
     return "python data"
 
 
-if __name__=='__main__':
-    app.run(debuge True)
 
 
 
@@ -45,7 +43,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.svm import SVC
 from sklearn.linear_model import LogisticRegression
 
-dataframe = pd.read_csv('datasest.csv') 
+dataframe = pd.read_csv("dataset.csv") 
 dataframe.head() 
 
 dataframe.drop('Unnamed: 0',axis=1,inplace=True)
@@ -93,7 +91,7 @@ supportVectorClassifier
 print('accuracy of the model:',str(np.round(accuracy_score(y_test,supportVectorClassifier)*100,2)) + '%')
 
 pip = Pipeline([
-    ('bow',CountVectorizer(analyzer=text_process)),
+    ('bow',CountVectorizer(analyzer=convertmyTxt)),
     ('tfidf',TfidfTransformer()),
     ('classifier',LogisticRegression())
 ])
@@ -105,3 +103,6 @@ logisticRegression = pip.predict(x_test)
 logisticRegression
 
 print('accuracy of the model:',str(np.round(accuracy_score(y_test,logisticRegression)*100,2)) + '%')
+
+if __name__=='__main__':
+    app.run(debug=True)
