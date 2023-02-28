@@ -8,7 +8,6 @@
 # sys.stdout.flush()
 
 from flask import Flask, render_template, request, redirect, session
-import json
 
 app=Flask(__name__)
 
@@ -18,91 +17,48 @@ app=Flask(__name__)
 #     return render_template('main_page.html')
 
 
-@app.route('/processUserInfo/review',methods=['POST'])
-def processUserInfo(userInfo):
-    userInfo=json.loads(userInfo)
-    print("user info data from python")
-    return "python data"
-
-
-
-
-
-
-
-import numpy as np 
-import pandas as pd 
-import string
-from sklearn.model_selection import train_test_split, GridSearchCV
-from sklearn.metrics import classification_report, confusion_matrix, accuracy_score 
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.linear_model import PassiveAggressiveClassifier
+import pickle
+import pandas as pd
+from sklearn.model_selection import train_test_split
 import nltk
 from nltk.corpus import stopwords
-from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
-from sklearn.pipeline import Pipeline
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.svm import SVC
-from sklearn.linear_model import LogisticRegression
+import string
 
-dataframe = pd.read_csv("dataset.csv") 
-dataframe.head() 
-
-dataframe.drop('Unnamed: 0',axis=1,inplace=True)
-
-dataframe.head() 
-
-dataframe.dropna(inplace=True) 
-
-dataframe['length'] = dataframe['text_'].apply(len) 
-
-dataframe[dataframe['label']=='OR'][['text_','length']].sort_values(by='length',ascending=False).head().iloc[0].text_ 
-
+# tfvect = TfidfVectorizer(stop_words='english', max_df=0.7)
 def convertmyTxt(rv): 
     np = [c for c in rv if c not in string.punctuation] 
     np = ''.join(np) 
     return [w for w in np.split() if w.lower() not in stopwords.words('english')] 
 
-x_train, x_test, y_train, y_test = train_test_split(dataframe['text_'],dataframe['label'],test_size=0.25)
-# Random Forest Classifier model 
-pip = Pipeline([
-    ('bow',CountVectorizer(analyzer=convertmyTxt)),
-    ('tfidf',TfidfTransformer()),
-    ('classifier',RandomForestClassifier())
-]) 
+loaded_mode = pickle.load(open('model.pkl', 'rb'))
+# dataframe = pd.read_csv('news.csv')
+# x = dataframe['text']
+# y = dataframe['label']
+# x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=0)
 
-pip.fit(x_train,y_train) 
+def fake_news_det(news):
+    input_data = [news]
+    prediction = loaded_mode.predict(input_data)
+    return prediction
 
-randomForestClassifier = pip.predict(x_test) 
-randomForestClassifier
+@app.route('/')
+def home():
+    return render_template('main_page.html')
 
-print('Accuracy of the model: ',str(np.round(accuracy_score(y_test,randomForestClassifier)*100,2)) + '%')
+@app.route('/predict', methods=['POST'])
+def predict():
+    if request.method == 'POST':
+        message = request.form['message']
+        pred = fake_news_det(message)
+        if(pred=="OR"):
+            return render_template('main_page.html', prediction="Fake")
+        else:
+            return render_template('main_page.html', prediction="Real")
+    else:
+        return render_template('main_page.html', prediction="Something went wrong")
 
-# Support Vector Classifier model
-pip = Pipeline([
-    ('bow',CountVectorizer(analyzer=convertmyTxt)),
-    ('tfidf',TfidfTransformer()),
-    ('classifier',SVC())
-])
-
-pip.fit(x_train,y_train)
-
-supportVectorClassifier = pip.predict(x_test)
-supportVectorClassifier
-
-print('accuracy of the model:',str(np.round(accuracy_score(y_test,supportVectorClassifier)*100,2)) + '%')
-
-pip = Pipeline([
-    ('bow',CountVectorizer(analyzer=convertmyTxt)),
-    ('tfidf',TfidfTransformer()),
-    ('classifier',LogisticRegression())
-])
-
-pip.fit(x_train,y_train)
-
-
-logisticRegression = pip.predict(x_test)
-logisticRegression
-
-print('accuracy of the model:',str(np.round(accuracy_score(y_test,logisticRegression)*100,2)) + '%')
-
-if __name__=='__main__':
+if __name__ == '__main__':
     app.run(debug=True)
+
