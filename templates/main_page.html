@@ -29,3 +29,45 @@
 </body>
 
 </html>
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Product Review Form</title>
+    <link rel="stylesheet" type="text/css" href="mainpage.css">
+  </head>
+  <body>
+    <header>
+      <h1>Product Review Form</h1>
+    </header>
+    <main>
+      <form>
+        <div class="form-group">
+          <label for="category">Category:</label>
+          <select id="category" name="category">
+            <option value="electronics">Electronics</option>
+            <option value="books">Books</option>
+            <option value="clothing">Clothing</option>
+            <option value="toys">Toys</option>
+          </select>
+        </div>
+        <div class="rating">
+            <span class="star" data-rating="1">&#9733;</span>
+            <span class="star" data-rating="2">&#9733;</span>
+            <span class="star" data-rating="3">&#9733;</span>
+            <span class="star" data-rating="4">&#9733;</span>
+            <span class="star" data-rating="5">&#9733;</span>
+          </div>
+          
+        <div class="form-group">
+          <label for="review">Review:</label>
+          <textarea id="review" name="review" rows="5" cols="50"></textarea>
+        </div>
+        <div class="form-group">
+          <button type="submit">Submit</button>
+        </div>
+      </form>
+    </main>
+  </body>
+</html>
+
