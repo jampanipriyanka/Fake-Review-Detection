@@ -1,21 +1,6 @@
-# import sys
-# data_to_send='send this to js'
-# input = sys.argv[1]
-# output= data_to_send
-# print(output);
-
-
-# sys.stdout.flush()
-
 from flask import Flask, render_template, request, redirect, session
 
 app=Flask(__name__)
-
-
-# @app.route('/',method=['GET'])
-# def index():
-#     return render_template('main_page.html')
-
 
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.linear_model import PassiveAggressiveClassifier
@@ -50,7 +35,7 @@ def home():
 @app.route('/predict', methods=['POST'])
 def predict():
     if request.method == 'POST':
-        message = request.form['message']
+        message = request.form['review']
         pred = fake_news_det(message)
         if(pred=="OR"):
             return render_template('main_page.html', prediction="Fake")
